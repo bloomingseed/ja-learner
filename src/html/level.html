@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/style.css" />
+    <title>LEVEL STARTED</title>
+  </head>
+  <body>
+    <canvas id="levelCanvas"></canvas>
+    <script>
+      module = {};
+    </script>
+    <script src="../../vendor/pixelmatch-5.2.0.js"></script>
+    <script src="../js/alphabet.js"></script>
+    <script src="../js/level.js"></script>
+    <script>
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.onload = function () {
+        const canvas = (globalThis.canvas =
+          document.querySelector("#levelCanvas"));
+        resizeCanvas();
+        let generator = new TextGenerator(alphabet);
+        levelStart(canvas, generator);
+      };
+      window.onresize = resizeCanvas;
+    </script>
+  </body>
+</html>

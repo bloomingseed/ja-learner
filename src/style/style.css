@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "Otsutome";
+  src: url("../../assets/font/Otsutome_font_ver3/OtsutomeFont_Ver3.ttf");
+}
+body{
+  margin:0;
+  font-family: "Otsutome";
+}
