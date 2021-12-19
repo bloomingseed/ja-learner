@@ -1,7 +1,9 @@
-function Bit(text) {
+function Bit(text, opt) {
   // x and y positions are randomized
   this.xpos = Math.random() * canvas.width;
-  this.ypos = -Math.random() * canvas.height;
+  this.ypos = opt.maxHeight - Math.random() * canvas.height;
+  opt.maxHeight = this.ypos;
+  this.text = text;
 
   // this draw the text for current frame
   this.draw = function () {
@@ -25,23 +27,24 @@ function Bit(text) {
 
   // this will update the text for next frame
   this.tick = function () {
-    if (this.ypos > canvas.height) {
-      // if text crosses the bottom of the screen then reset
-      this.ypos = -Math.random() * canvas.height;
-      this.xpos = Math.random() * canvas.width;
-    } else this.ypos += 2; // drop text by 2 pixels down
+    this.ypos += 10; // drop text by 2 pixels down
   };
 }
 
 function reDraw() {
   // before drawing clear entire screen
-  context.fillStyle = "black";
+  context.fillStyle = "white";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   // draw every text elements
   for (var bit in bits) {
     bits[bit].draw();
     bits[bit].tick();
+  }
+  let i = globalThis.focusedBitOffset;
+  if (bits[i].ypos > canvas.height * 0.7) {
+    i = (i + 1) % bits.length;
+    changeFocusedBitOffset(i, focusedBitOffsetChanged);
   }
 }
 
@@ -57,14 +60,26 @@ class TextGenerator {
   }
 }
 
+function changeFocusedBitOffset(value, cb) {
+  globalThis.focusedBitOffset = value;
+  if (cb != null) {
+    cb(value);
+  }
+}
+
+function focusedBitOffsetChanged(offset) {
+  console.log("Focused bit: ", bits[offset].text);
+}
+
 function levelStart(canvas, textGenerator) {
   globalThis.canvas = canvas;
   var context = (globalThis.context = canvas.getContext("2d"));
   context.font = "14pt Otsutome";
   var bits = (globalThis.bits = new Array());
+  let opt = { maxHeight: 0 };
   for (let txt = textGenerator.next(); txt != null; txt = textGenerator.next())
-    bits.push(new Bit(txt));
-
+    bits.push(new Bit(txt, opt));
+  changeFocusedBitOffset(0, focusedBitOffsetChanged);
   // This will call 'reDraw' at every 33 milliseconds.
   // So, our animation will run at 30fps (1000/33 ≈ 30).
   setInterval(reDraw, 33);
