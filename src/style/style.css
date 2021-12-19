@@ -19,7 +19,7 @@ canvas{
 #submitBtn{
   position: absolute;
   right:1rem;
-  top:80%;
+  top:53px;
 }
 #drawCanvas{
   display: block;
