@@ -37,3 +37,18 @@ button{
   font-size: 1.125rem;
   border-radius: 3px;
 }
+#hintBtn{
+  cursor: pointer;
+}
+.d-inline-right{
+  float:right;
+}
+.d-inline-right::after{
+  content:"";
+  clear:right;
+  display: block;
+}
+.container{
+  width: 80%;
+  margin: auto;
+}

@@ -8,10 +8,16 @@
     <title>LEVEL STARTED</title>
   </head>
   <body style="margin: 0">
-    <span id="scoreBoard">0</span>
+    <div class="container">
+      <span id="scoreBoard">0</span>
+      <div class="d-inline-right" id="hintBtn">
+        <span id="hintBoard">0</span>
+        <span>hints left</span>
+      </div>
+    </div>
     <canvas id="levelCanvas"></canvas>
     <canvas id="drawCanvas"></canvas>
-    <div class="d-hidden">
+    <div class="d-hidden" id="hintToggler">
       <canvas id="modelCanvas"></canvas>
     </div>
     <script>
@@ -23,6 +29,7 @@
     <script src="../js/level.js"></script>
     <script src="../js/drawCanvas.js"></script>
     <script src="../js/compareImages.js"></script>
+    <script src="../js/hinting.js"></script>
     <script>
       function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -30,12 +37,7 @@
       }
       function focusedBitOffsetChanged(offset) {
         let bit = bits[offset];
-        console.log(bit.text[0]);
-        let uri = hira[bit.text[0]];
-        loadImageToCanvas(uri, modelCanvas, () => {
-          drawCanvas.width = modelCanvas.width;
-          drawCanvas.height = modelCanvas.height;
-        });
+        for (let cb of globalThis.bitChangedListeners) cb(bit);
       }
       function validateCanvas() {
         let score = calculateScore();
@@ -64,6 +66,16 @@
         globalThis.modelCanvas = document.querySelector("#modelCanvas");
         globalThis.scoreBoard = document.querySelector("#scoreBoard");
         globalThis.score = 0;
+        globalThis.bitChangedListeners = [];
+        globalThis.bitChangedListeners.push((bit) => console.log(bit.text[0]));
+        globalThis.bitChangedListeners.push((bit) => {
+          let uri = hira[bit.text[0]];
+          loadImageToCanvas(uri, modelCanvas, () => {
+            drawCanvas.width = modelCanvas.width;
+            drawCanvas.height = modelCanvas.height;
+          });
+        });
+        config.maxHint = 10;
 
         resizeCanvas();
         let generator = new TextGenerator(alphabet);
@@ -76,6 +88,17 @@
         addFastMode("KeyW");
         addClearCanvas("KeyE", drawCanvas);
         addSubmitCanvas("Space", modelCanvas, drawCanvas, submitCanvasWrapper);
+        let hintBoard = document.querySelector("#hintBoard");
+        let hintBtn = document.querySelector("#hintBtn");
+        let hintToggler = document.querySelector("#hintToggler");
+        addHinting(
+          hintBoard,
+          hintBtn,
+          config.maxHint,
+          hintToggler,
+          globalThis,
+          "KeyH"
+        );
       };
       window.onresize = resizeCanvas;
     </script>
