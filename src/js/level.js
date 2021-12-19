@@ -15,6 +15,7 @@ function Bit(text, opt) {
   this.draw = function () {
     // Formatting the text to display
     context.fillStyle = config.textColor;
+    context.font = config.font;
 
     // var text = "a";
     var textWidth = context.measureText("W.").width;
@@ -33,7 +34,7 @@ function Bit(text, opt) {
 
   // this will update the text for next frame
   this.tick = function () {
-    this.ypos += 10; // drop text by 2 pixels down
+    this.ypos += config.speed; // drop text by 2 pixels down
   };
 }
 
@@ -80,7 +81,6 @@ function focusedBitOffsetChanged(offset) {
 function levelStart(canvas, textGenerator) {
   globalThis.canvas = canvas;
   var context = (globalThis.context = canvas.getContext("2d"));
-  context.font = config.font;
   var bits = (globalThis.bits = new Array());
   let opt = { maxHeight: 0 };
   for (let txt = textGenerator.next(); txt != null; txt = textGenerator.next())
