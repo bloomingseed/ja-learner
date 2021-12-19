@@ -7,13 +7,15 @@ const config = {
   font: "44px Otsutome",
   vanishingLineRatio: 1, // percentage of canvas height
   marginRight: -132, // px
+  marginLeft: 44, // px
   minSpacingRatio: 0.5, // percentage of min distance between 2 consecutive word relative to canvas height
   maxSpacingRatio: 2, // percentage of max distance between 2 consecutive word relative to canvas height
   fps: 30, // game repainting speed
 };
 function Bit(text, opt) {
   // x and y positions are randomized
-  this.xpos = Math.random() * (canvas.width + config.marginRight);
+  this.xpos =
+    Math.random() * (canvas.width + config.marginRight) + config.marginLeft;
   let minY = config.minSpacingRatio * canvas.height,
     maxY = config.maxSpacingRatio * canvas.height;
   let distance = Math.random() * (maxY - minY) + minY;

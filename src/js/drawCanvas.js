@@ -36,7 +36,6 @@ class DrawCanvas {
       event.preventDefault();
 
       const mousePos = getPenPosition(event);
-      console.log(mousePos);
 
       this.ctx.beginPath();
 
