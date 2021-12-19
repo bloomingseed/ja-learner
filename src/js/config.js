@@ -2,6 +2,7 @@ globalThis.config = {
   /**
    * Level configs
    */
+  mode: "hira", // select mode: "hira" for hiragana characters, "kana" for katankana characters
   speed: 2, // px/frame; normal text speed
   slowModeSpeed: 0.5, // px/frame; text speed in slow mode
   fastModeSpeed: 10, // px/frame; text speed in fast mode

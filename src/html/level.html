@@ -29,6 +29,7 @@
     <script src="../js/config.js"></script>
     <script src="../js/alphabet.js"></script>
     <script src="../../assets/images/hira/hira.js"></script>
+    <script src="../../assets/images/kana/kana.js"></script>
     <script src="../js/level.js"></script>
     <script src="../js/drawCanvas.js"></script>
     <script src="../js/compareImages.js"></script>
@@ -62,6 +63,9 @@
       }
 
       window.onload = function () {
+        globalThis.hira = hira;
+        globalThis.kana = kana;
+        config.mode = "hira";
         const canvas = (globalThis.canvas =
           document.querySelector("#levelCanvas"));
         const drawCanvas = (globalThis.drawCanvas =
@@ -72,7 +76,7 @@
         globalThis.bitChangedListeners = [];
         globalThis.bitChangedListeners.push((bit) => console.log(bit.text[0]));
         globalThis.bitChangedListeners.push((bit) => {
-          let uri = hira[bit.text[0]];
+          let uri = globalThis[config.mode][bit.text[0]];
           loadImageToCanvas(uri, modelCanvas, () => {
             drawCanvas.width = modelCanvas.width;
             drawCanvas.height = modelCanvas.height;
