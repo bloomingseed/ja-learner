@@ -92,10 +92,15 @@
           .addSubmitButton(controlPanel, submitCanvasWrapper)
           .begin();
         levelStart(canvas, generator);
-        addSlowMode("KeyQ");
-        addFastMode("KeyW");
-        addClearCanvas("KeyE", drawCanvas);
-        addSubmitCanvas("Space", modelCanvas, drawCanvas, submitCanvasWrapper);
+        addSlowMode(config.slowModeKey);
+        addFastMode(config.fastModeKey);
+        addClearCanvas(config.clearDrawingCanvasKey, drawCanvas);
+        addSubmitCanvas(
+          config.submitDrawingCanvasKey,
+          modelCanvas,
+          drawCanvas,
+          submitCanvasWrapper
+        );
         let hintBoard = document.querySelector("#hintBoard");
         let hintBtn = document.querySelector("#hintBtn");
         let hintToggler = document.querySelector("#hintToggler");
@@ -105,7 +110,7 @@
           config.maxHint,
           hintToggler,
           globalThis,
-          "KeyH"
+          config.useHintKey
         );
       };
       window.onresize = resizeCanvas;

@@ -15,6 +15,11 @@ globalThis.config = {
   minSpacingRatio: 0.5, // percentage of min distance between 2 consecutive word relative to canvas height
   maxSpacingRatio: 2, // percentage of max distance between 2 consecutive word relative to canvas height
   fps: 30, // game repainting speed
+  slowModeKey: "KeyQ", // Keyboard shortcut for slow mode
+  fastModeKey: "KeyW", // Keyboard shortcut for fast mode
+  clearDrawingCanvasKey: "KeyE", // Keyboard shortcut for clearing drawing canvas
+  submitDrawingCanvasKey: "Space", // Keyboard shortcut for submitting drawing canvas for score
+  useHintKey: "KeyH", // Keyboard shortcut for using hints
   /**
    * Drawing canvas config
    */
