@@ -9,25 +9,32 @@
   </head>
   <body>
     <canvas id="levelCanvas"></canvas>
+    <canvas id="drawCanvas"></canvas>
     <script>
       module = {};
     </script>
     <script src="../../vendor/pixelmatch-5.2.0.js"></script>
     <script src="../js/alphabet.js"></script>
     <script src="../js/level.js"></script>
+    <script src="../js/drawCanvas.js"></script>
     <script>
-      function resizeCanvas() {
+      function resizeCanvases() {
         canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.height = window.innerHeight / 2;
+        drawCanvas.width = window.innerWidth;
+        drawCanvas.height = window.innerHeight / 2;
       }
       window.onload = function () {
         const canvas = (globalThis.canvas =
           document.querySelector("#levelCanvas"));
-        resizeCanvas();
+        const drawCanvas = (globalThis.drawCanvas =
+          document.querySelector("#drawCanvas"));
+        resizeCanvases();
         let generator = new TextGenerator(alphabet);
+        new DrawCanvas(drawCanvas).addClearButton().begin();
         levelStart(canvas, generator);
       };
-      window.onresize = resizeCanvas;
+      window.onresize = resizeCanvases;
     </script>
   </body>
 </html>
