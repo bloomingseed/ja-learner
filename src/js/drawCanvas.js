@@ -5,22 +5,22 @@ class DrawCanvas {
     this.coord = { x: 0, y: 0 };
     this.paint = false;
   }
-  addClearButton() {
+  addClearButton(parent) {
     let btn = document.createElement("button");
     btn.innerText = "clear";
     btn.setAttribute("id", "clearBtn");
     let clearCanvas = () =>
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     btn.addEventListener("click", clearCanvas);
-    document.body.appendChild(btn);
+    parent.appendChild(btn);
     return this;
   }
-  addSubmitButton(cb) {
+  addSubmitButton(parent, cb) {
     let btn = document.createElement("button");
     btn.innerText = "submit";
     btn.setAttribute("id", "submitBtn");
     btn.addEventListener("click", cb);
-    document.body.appendChild(btn);
+    parent.appendChild(btn);
     return this;
   }
   begin() {

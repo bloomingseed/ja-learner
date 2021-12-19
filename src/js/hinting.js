@@ -29,7 +29,7 @@ function addHinting(
   let showHint = () => {
     if (opt.hintCount > 0) {
       setHintCount(opt.hintCount - 1);
-      toggleHintElm.setAttribute("class", undefined);
+      toggleHintElm.setAttribute("class", "");
       globalThis.bitChangedListeners.push(closeHint);
     }
   };

@@ -14,12 +14,12 @@ canvas{
 #clearBtn{
   position: absolute;
   right:1rem;
-  top:55%;
+  top:0;
 }
 #submitBtn{
   position: absolute;
   right:1rem;
-  top:65%;
+  top:80%;
 }
 #drawCanvas{
   display: block;
@@ -51,4 +51,11 @@ button{
 .container{
   width: 80%;
   margin: auto;
+}
+#controlPanel{
+  position:relative;
+}
+#hintToggler{
+  position: absolute;
+  top: 0;
 }

@@ -16,9 +16,11 @@
       </div>
     </div>
     <canvas id="levelCanvas"></canvas>
-    <canvas id="drawCanvas"></canvas>
-    <div class="d-hidden" id="hintToggler">
-      <canvas id="modelCanvas"></canvas>
+    <div id="controlPanel">
+      <canvas id="drawCanvas"></canvas>
+      <div class="d-hidden" id="hintToggler">
+        <canvas id="modelCanvas"></canvas>
+      </div>
     </div>
     <script>
       module = {};
@@ -76,12 +78,13 @@
           });
         });
         config.maxHint = 10;
+        let controlPanel = document.querySelector("#controlPanel");
 
         resizeCanvas();
         let generator = new TextGenerator(alphabet);
         new DrawCanvas(drawCanvas)
-          .addClearButton()
-          .addSubmitButton(submitCanvasWrapper)
+          .addClearButton(controlPanel)
+          .addSubmitButton(controlPanel, submitCanvasWrapper)
           .begin();
         levelStart(canvas, generator);
         addSlowMode("KeyQ");
