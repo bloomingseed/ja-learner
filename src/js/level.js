@@ -1,3 +1,9 @@
+const config = {
+  speed: 5, // px
+  textColor: "green",
+  backgroundColor: "white",
+  font: "14pt Otsutome",
+};
 function Bit(text, opt) {
   // x and y positions are randomized
   this.xpos = Math.random() * canvas.width;
@@ -8,7 +14,7 @@ function Bit(text, opt) {
   // this draw the text for current frame
   this.draw = function () {
     // Formatting the text to display
-    context.fillStyle = "green";
+    context.fillStyle = config.textColor;
 
     // var text = "a";
     var textWidth = context.measureText("W.").width;
@@ -33,7 +39,7 @@ function Bit(text, opt) {
 
 function reDraw() {
   // before drawing clear entire screen
-  context.fillStyle = "white";
+  context.fillStyle = config.backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   // draw every text elements
@@ -43,7 +49,7 @@ function reDraw() {
   }
   let i = globalThis.focusedBitOffset;
   if (bits[i].ypos > canvas.height * 0.7) {
-    i = (i + 1) % bits.length;
+    ++i;
     changeFocusedBitOffset(i, focusedBitOffsetChanged);
   }
 }
@@ -74,7 +80,7 @@ function focusedBitOffsetChanged(offset) {
 function levelStart(canvas, textGenerator) {
   globalThis.canvas = canvas;
   var context = (globalThis.context = canvas.getContext("2d"));
-  context.font = "14pt Otsutome";
+  context.font = config.font;
   var bits = (globalThis.bits = new Array());
   let opt = { maxHeight: 0 };
   for (let txt = textGenerator.next(); txt != null; txt = textGenerator.next())
