@@ -13,10 +13,27 @@ canvas{
 }
 #clearBtn{
   position: absolute;
-  right:0;
+  right:1rem;
   top:55%;
+}
+#submitBtn{
+  position: absolute;
+  right:1rem;
+  top:65%;
 }
 #drawCanvas{
   display: block;
   margin: auto;
+}
+.d-hidden{
+  display: none;
+}
+button{
+  color: white;
+  background: green;
+  border: none;
+  padding: 6px 12px;
+  font-family: "Otsutome";
+  font-size: 1.125rem;
+  border-radius: 3px;
 }

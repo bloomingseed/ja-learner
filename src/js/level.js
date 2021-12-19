@@ -1,13 +1,23 @@
 const config = {
-  speed: 5, // px
-  textColor: "green",
-  backgroundColor: "white",
-  font: "14pt Otsutome",
+  speed: 2, // px
+  slowModeSpeed: 0.5, // px
+  fastModeSpeed: 10, // px
+  textColor: "white",
+  backgroundColor: "#76ba27",
+  font: "44px Otsutome",
+  vanishingLineRatio: 1, // percentage of canvas height
+  marginRight: -132, // px
+  minSpacingRatio: 0.5, // percentage of min distance between 2 consecutive word relative to canvas height
+  maxSpacingRatio: 2, // percentage of max distance between 2 consecutive word relative to canvas height
+  fps: 30, // game repainting speed
 };
 function Bit(text, opt) {
   // x and y positions are randomized
-  this.xpos = Math.random() * canvas.width;
-  this.ypos = opt.maxHeight - Math.random() * canvas.height;
+  this.xpos = Math.random() * (canvas.width + config.marginRight);
+  let minY = config.minSpacingRatio * canvas.height,
+    maxY = config.maxSpacingRatio * canvas.height;
+  let distance = Math.random() * (maxY - minY) + minY;
+  this.ypos = opt.maxHeight - distance;
   opt.maxHeight = this.ypos;
   this.text = text;
 
@@ -49,9 +59,13 @@ function reDraw() {
     bits[bit].tick();
   }
   let i = globalThis.focusedBitOffset;
-  if (bits[i].ypos > canvas.height * 0.7) {
-    ++i;
-    changeFocusedBitOffset(i, focusedBitOffsetChanged);
+  if (
+    i < bits.length &&
+    bits[i].ypos > canvas.height * config.vanishingLineRatio
+  ) {
+    globalThis.focusedBitOffset = ++i;
+    if (i == bits.length) alert("Level finished");
+    else changeFocusedBitOffset(i, focusedBitOffsetChanged);
   }
 }
 
@@ -88,5 +102,44 @@ function levelStart(canvas, textGenerator) {
   changeFocusedBitOffset(0, focusedBitOffsetChanged);
   // This will call 'reDraw' at every 33 milliseconds.
   // So, our animation will run at 30fps (1000/33 ≈ 30).
-  setInterval(reDraw, 33);
+  setInterval(reDraw, Number.parseInt(1000 / config.fps));
+}
+
+function addSlowMode(keyCode) {
+  let speed = config.speed;
+  let enter = () => {
+    config.speed = config.slowModeSpeed;
+  };
+  let leave = () => {
+    config.speed = speed;
+  };
+  document.addEventListener("keydown", (event) => {
+    if (event.code === keyCode) enter();
+  });
+  document.addEventListener("keyup", (event) => {
+    if (event.code === keyCode) leave();
+  });
+}
+function addFastMode(keyCode) {
+  let speed = config.speed;
+  let enter = () => {
+    config.speed = config.fastModeSpeed;
+  };
+  let leave = () => {
+    config.speed = speed;
+  };
+  document.addEventListener("keydown", (event) => {
+    if (event.code === keyCode) enter();
+  });
+  document.addEventListener("keyup", (event) => {
+    if (event.code === keyCode) leave();
+  });
+}
+function clearCanvas(canvas) {
+  canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+}
+function addClearCanvas(keyCode, canvas) {
+  document.addEventListener("keypress", (event) => {
+    if (event.code === keyCode) clearCanvas(canvas);
+  });
 }

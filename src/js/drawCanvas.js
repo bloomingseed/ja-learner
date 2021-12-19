@@ -15,6 +15,14 @@ class DrawCanvas {
     document.body.appendChild(btn);
     return this;
   }
+  addSubmitButton(cb) {
+    let btn = document.createElement("button");
+    btn.innerText = "submit";
+    btn.setAttribute("id", "submitBtn");
+    btn.addEventListener("click", cb);
+    document.body.appendChild(btn);
+    return this;
+  }
   begin() {
     // Updates the coordianates of the cursor when
     // an event e is triggered to the coordinates where
@@ -71,6 +79,7 @@ class DrawCanvas {
     // add listeners
     this.canvas.addEventListener("mousedown", startPainting);
     this.canvas.addEventListener("mouseup", stopPainting);
+    this.canvas.addEventListener("mouseleave", stopPainting);
     this.canvas.addEventListener("mousemove", sketch);
   }
 }

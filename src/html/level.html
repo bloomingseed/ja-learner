@@ -8,15 +8,21 @@
     <title>LEVEL STARTED</title>
   </head>
   <body style="margin: 0">
+    <span id="scoreBoard">0</span>
     <canvas id="levelCanvas"></canvas>
     <canvas id="drawCanvas"></canvas>
+    <div class="d-hidden">
+      <canvas id="modelCanvas"></canvas>
+    </div>
     <script>
       module = {};
     </script>
     <script src="../../vendor/pixelmatch-5.2.0.js"></script>
     <script src="../js/alphabet.js"></script>
+    <script src="../../assets/images/hira/hira.js"></script>
     <script src="../js/level.js"></script>
     <script src="../js/drawCanvas.js"></script>
+    <script src="../js/compareImages.js"></script>
     <script>
       function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -25,22 +31,51 @@
       function focusedBitOffsetChanged(offset) {
         let bit = bits[offset];
         console.log(bit.text[0]);
-        let size = canvasSize(bit.text[0]);
-        drawCanvas.width = size[0];
-        drawCanvas.height = size[1];
+        let uri = hira[bit.text[0]];
+        loadImageToCanvas(uri, modelCanvas, () => {
+          drawCanvas.width = modelCanvas.width;
+          drawCanvas.height = modelCanvas.height;
+        });
       }
-      function canvasSize(c) {
-        return longCharacters.indexOf(c) > 0 ? [140, 80] : [90, 90];
+      function validateCanvas() {
+        let score = calculateScore();
       }
+      function addScore(score, cb) {
+        globalThis.score += score;
+        scoreBoard.innerHTML = globalThis.score;
+
+        if (cb) cb(score);
+      }
+      function handleScore(score) {
+        addScore(score, console.log);
+        let i = focusedBitOffset;
+        bits[i].ypos = 2 * canvas.height;
+        changeFocusedBitOffset(i + 1, focusedBitOffsetChanged);
+      }
+      function submitCanvasWrapper() {
+        submitCanvas(modelCanvas, drawCanvas, handleScore);
+      }
+
       window.onload = function () {
         const canvas = (globalThis.canvas =
           document.querySelector("#levelCanvas"));
         const drawCanvas = (globalThis.drawCanvas =
           document.querySelector("#drawCanvas"));
+        globalThis.modelCanvas = document.querySelector("#modelCanvas");
+        globalThis.scoreBoard = document.querySelector("#scoreBoard");
+        globalThis.score = 0;
+
         resizeCanvas();
         let generator = new TextGenerator(alphabet);
-        new DrawCanvas(drawCanvas).addClearButton().begin();
+        new DrawCanvas(drawCanvas)
+          .addClearButton()
+          .addSubmitButton(submitCanvasWrapper)
+          .begin();
         levelStart(canvas, generator);
+        addSlowMode("KeyQ");
+        addFastMode("KeyW");
+        addClearCanvas("KeyE", drawCanvas);
+        addSubmitCanvas("Space", modelCanvas, drawCanvas, submitCanvasWrapper);
       };
       window.onresize = resizeCanvas;
     </script>
