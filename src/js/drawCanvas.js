@@ -1,9 +1,17 @@
+if (globalThis.config == undefined) globalThis.config = {};
+addedConfig = {
+  lineWidth: 4,
+  strokeStyle: "#333",
+  shadowColor: "#333",
+  shadowBlur: 3 / 4,
+};
+for (let key in addedConfig) config[key] = addedConfig[key];
 class DrawCanvas {
   constructor(drawCanvas) {
     this.canvas = drawCanvas;
     this.ctx = drawCanvas.getContext("2d");
     this.coord = { x: 0, y: 0 };
-    this.paint = false;
+    this.painting = false;
   }
   addClearButton(parent) {
     let btn = document.createElement("button");
@@ -24,62 +32,67 @@ class DrawCanvas {
     return this;
   }
   begin() {
-    // Updates the coordianates of the cursor when
-    // an event e is triggered to the coordinates where
-    // the said event is triggered.
-    let getPosition = (event) => {
-      // this.coord.x = event.clientX - this.canvas.offsetLeft;
-      // this.coord.y = event.clientY - this.canvas.offsetTop;
-      this.coord.x = event.offsetX;
-      this.coord.y = event.offsetY;
+    let handleDrawingStart = (event) => {
+      event.preventDefault();
+
+      const mousePos = getPenPosition(event);
+      console.log(mousePos);
+
+      this.ctx.beginPath();
+
+      this.ctx.moveTo(mousePos.x, mousePos.y);
+
+      this.ctx.lineWidth = config.lineWidth;
+      this.ctx.strokeStyle = config.strokeStyle;
+      this.ctx.shadowColor = config.shadowColor;
+      this.ctx.shadowBlur = config.shadowBlur;
+
+      this.ctx.fill();
+
+      this.painting = true;
     };
 
-    // The following functions toggle the flag to start
-    // and stop drawing
-    let startPainting = (event) => {
-      this.paint = true;
-      getPosition(event);
+    let handleDrawingInProgress = (event) => {
+      event.preventDefault();
+
+      if (this.painting) {
+        const mousePos = getPenPosition(event);
+
+        this.ctx.lineTo(mousePos.x, mousePos.y);
+        this.ctx.stroke();
+      }
     };
-    let stopPainting = () => {
-      this.paint = false;
+
+    let handleDrawingStop = (event) => {
+      event.preventDefault();
+
+      if (this.painting) {
+        this.ctx.shadowColor = config.shadowColor;
+        this.ctx.shadowBlur = config.shadowBlur;
+
+        this.ctx.stroke();
+      }
+
+      this.painting = false;
     };
+    let getPenPosition = (event) => {
+      var rect = this.canvas.getBoundingClientRect();
+      const clientX = event.clientX || event.touches[0].clientX;
+      const clientY = event.clientY || event.touches[0].clientY;
+      const canvasX = clientX - rect.left;
+      const canvasY = clientY - rect.top;
 
-    let sketch = (event) => {
-      if (!this.paint) return;
-
-      let ctx = this.ctx;
-      let coord = this.coord;
-      ctx.beginPath();
-
-      ctx.lineWidth = 5;
-
-      // Sets the end of the lines drawn
-      // to a round shape.
-      ctx.lineCap = "round";
-
-      ctx.strokeStyle = "green";
-
-      // The cursor to start drawing
-      // moves to this coordinate
-      ctx.moveTo(coord.x, coord.y);
-
-      // The position of the cursor
-      // gets updated as we move the
-      // mouse around.
-      getPosition(event);
-
-      // A line is traced from start
-      // coordinate to this coordinate
-      ctx.lineTo(coord.x, coord.y);
-
-      // Draws the line.
-      ctx.stroke();
+      return { x: canvasX, y: canvasY };
     };
 
     // add listeners
-    this.canvas.addEventListener("mousedown", startPainting);
-    this.canvas.addEventListener("mouseup", stopPainting);
-    this.canvas.addEventListener("mouseleave", stopPainting);
-    this.canvas.addEventListener("mousemove", sketch);
+    this.canvas.addEventListener("mousedown", handleDrawingStart);
+    this.canvas.addEventListener("mouseup", handleDrawingStop);
+    this.canvas.addEventListener("mouseleave", handleDrawingStop);
+    this.canvas.addEventListener("mousemove", handleDrawingInProgress);
+
+    this.canvas.addEventListener("touchstart", handleDrawingStart);
+    this.canvas.addEventListener("touchend", handleDrawingStop);
+    this.canvas.addEventListener("touchmove", handleDrawingInProgress);
   }
 }
