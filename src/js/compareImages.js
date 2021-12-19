@@ -1,12 +1,4 @@
 const APP_NAME = "ja-learner";
-if (globalThis.config == undefined) globalThis.config = {};
-moreConfig = {
-  penalty_ratio: 0.4,
-  baseScore: 10,
-  threshold: 60, // px
-};
-for (let key in moreConfig) config[key] = moreConfig[key];
-
 const BLANK_CANVAS = document.createElement("canvas");
 
 function loadImageToCanvas(uri, canvas, cb) {

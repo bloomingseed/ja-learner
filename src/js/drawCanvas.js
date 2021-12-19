@@ -1,11 +1,3 @@
-if (globalThis.config == undefined) globalThis.config = {};
-addedConfig = {
-  lineWidth: 4,
-  strokeStyle: "#333",
-  shadowColor: "#333",
-  shadowBlur: 3 / 4,
-};
-for (let key in addedConfig) config[key] = addedConfig[key];
 class DrawCanvas {
   constructor(drawCanvas) {
     this.canvas = drawCanvas;

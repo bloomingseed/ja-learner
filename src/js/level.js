@@ -1,17 +1,3 @@
-const config = {
-  speed: 2, // px
-  slowModeSpeed: 0.5, // px
-  fastModeSpeed: 10, // px
-  textColor: "white",
-  backgroundColor: "#76ba27",
-  font: "44px Otsutome",
-  vanishingLineRatio: 1, // percentage of canvas height
-  marginRight: -132, // px
-  marginLeft: 44, // px
-  minSpacingRatio: 0.5, // percentage of min distance between 2 consecutive word relative to canvas height
-  maxSpacingRatio: 2, // percentage of max distance between 2 consecutive word relative to canvas height
-  fps: 30, // game repainting speed
-};
 function Bit(text, opt) {
   // x and y positions are randomized
   this.xpos =
