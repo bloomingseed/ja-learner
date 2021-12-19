@@ -31,7 +31,6 @@ class DrawCanvas {
     let startPainting = (event) => {
       this.paint = true;
       getPosition(event);
-      console.log(event);
     };
     let stopPainting = () => {
       this.paint = false;

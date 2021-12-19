@@ -6,7 +6,6 @@
   src: url("../../assets/font/Otsutome_font_ver3/OtsutomeFont_Ver3.ttf");
 }
 body{
-  margin:0;
   font-family: "Otsutome";
 }
 canvas{
@@ -16,4 +15,8 @@ canvas{
   position: absolute;
   right:0;
   top:55%;
+}
+#drawCanvas{
+  display: block;
+  margin: auto;
 }
