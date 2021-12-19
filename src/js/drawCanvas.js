@@ -9,6 +9,7 @@ class DrawCanvas {
     let btn = document.createElement("button");
     btn.innerText = "clear";
     btn.setAttribute("id", "clearBtn");
+    btn.classList.add("btn");
     let clearCanvas = () =>
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     btn.addEventListener("click", clearCanvas);
@@ -19,6 +20,7 @@ class DrawCanvas {
     let btn = document.createElement("button");
     btn.innerText = "submit";
     btn.setAttribute("id", "submitBtn");
+    btn.classList.add("btn");
     btn.addEventListener("click", cb);
     parent.appendChild(btn);
     return this;

@@ -28,7 +28,7 @@ canvas{
 .d-hidden{
   display: none;
 }
-button{
+.btn{
   color: white;
   background: green;
   border: none;
@@ -58,4 +58,47 @@ button{
 #hintToggler{
   position: absolute;
   top: 0;
+}
+.h-min-50{
+  min-height: 200px;
+}
+.text-center{
+  text-align: center;
+}
+.card{
+  border:1px solid gray;
+  border-radius: 4px;
+}
+.card-header{
+  margin-top: 0;
+  padding: 20px 0 30px 0;
+  background: green;
+  color: white;
+}
+#main-menu ul{
+  list-style: none;
+  padding-left: 0;
+}
+#main-menu ul li{
+  line-height: 2rem;
+  margin: 30px 0;
+}
+#main-menu ul li a{
+  padding: 12px 16px;
+}
+.d-note{
+  color:gray;
+  background: #fbcf25;
+  padding: 12px 24px;
+  line-height: 1.25rem;
+}
+code{
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #ddd;
+  border-radius: 3px;
+  padding: 1px 2px;
+  font-size: 0.9rem;
+}
+.mt-large{
+  margin-top: 16px;
 }
